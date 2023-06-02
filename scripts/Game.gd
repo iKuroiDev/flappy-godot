@@ -60,7 +60,8 @@ func _on_Flappy_game_over():
 
 func stop_obstacles():
 	for obstacle in get_tree().get_nodes_in_group("obstacles"):
-		obstacle.is_moving = false
+		if "is_moving" in obstacle:
+			obstacle.is_moving = false
 
 func _on_GroundTimer_timeout():
 	if is_playing:
