@@ -13,7 +13,6 @@ func set_score(score):
 	scores.insert(0, score)
 	if scores.size() > MAX_SCORE_HISTORY:
 		scores.remove(scores.size() - 1)
-	print(scores)
 		
 func get_hi_score():
 	return hi_score

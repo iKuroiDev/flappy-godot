@@ -10,5 +10,4 @@ func _physics_process(_delta):
 	if is_moving:
 		position.x -= 2
 		if position.x < -30:
-			print('destroy')
 			queue_free()

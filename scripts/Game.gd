@@ -9,6 +9,7 @@ var current_score = 0
 
 onready var tween = $StartMessage/Tween
 onready var start_message = $StartMessage/Message
+onready var game_over_tween = $Menus/Tween
 
 var bgs = [
 	"day",
@@ -43,25 +44,30 @@ func _on_PipeTimer_timeout():
 		spawn_obstacle(pipe, Vector2(310, 0), pipe_skin)
 
 func _on_Flappy_game_over():
+	game_over_tween.interpolate_property($Menus/MenuContainer, "modulate:a", 0, 1, 0.2)
+	game_over_tween.start()
+	
 	GameManager.set_score(current_score)	
-	$Menus/HiScore.set_text("Hi Score: " + str(GameManager.hi_score))
+	$Menus/MenuContainer/HiScore.set_text("Hi Score: " + str(GameManager.hi_score))
 		
-	$Menus/ScoreList.set_text(str(GameManager.scores[0]) + "\n" + str(GameManager.scores[1]) + "\n" + str(GameManager.scores[2]))
+	$Menus/MenuContainer/ScoreList.set_text(str(GameManager.scores[0]) + "\n" + str(GameManager.scores[1]) + "\n" + str(GameManager.scores[2]))
 	
 	is_playing = false
 	$PipeTimer.stop()
 	stop_obstacles()
 	$Menus.visible = true
+	$Menus/MenuContainer/Button.disabled = false
 
 func stop_obstacles():
 	for obstacle in get_tree().get_nodes_in_group("obstacles"):
-		obstacle.is_moving = false
+		if "is_moving" in obstacle:
+			obstacle.is_moving = false
 
 func _on_GroundTimer_timeout():
 	if is_playing:
 		spawn_obstacle(ground, Vector2(456, 480))
 
-func spawn_obstacle(scene: PackedScene, position: Vector2, skin = null) -> Node:
+func spawn_obstacle(scene: PackedScene, position: Vector2, skin = null):
 	var obstacle = scene.instance()
 	if(skin):
 		obstacle.get_node("Pipe").texture = skin
@@ -70,7 +76,6 @@ func spawn_obstacle(scene: PackedScene, position: Vector2, skin = null) -> Node:
 	obstacle.position = position
 	obstacle.add_to_group("obstacles")
 	add_child(obstacle)
-	return obstacle
 
 func _on_Flappy_point():
 	current_score += 1
@@ -83,5 +88,6 @@ func _on_Flappy_game_start():
 	tween.start()
 
 func _on_Button_pressed():
-	get_tree().reload_current_scene()
+	get_tree().reload_current_scene()	
 	pass
+
