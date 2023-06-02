@@ -56,6 +56,7 @@ func _on_Flappy_game_over():
 	$PipeTimer.stop()
 	stop_obstacles()
 	$Menus.visible = true
+	$Menus/MenuContainer/Button.disabled = false
 
 func stop_obstacles():
 	for obstacle in get_tree().get_nodes_in_group("obstacles"):
@@ -65,7 +66,7 @@ func _on_GroundTimer_timeout():
 	if is_playing:
 		spawn_obstacle(ground, Vector2(456, 480))
 
-func spawn_obstacle(scene: PackedScene, position: Vector2, skin = null) -> Node:
+func spawn_obstacle(scene: PackedScene, position: Vector2, skin = null):
 	var obstacle = scene.instance()
 	if(skin):
 		obstacle.get_node("Pipe").texture = skin
@@ -74,7 +75,6 @@ func spawn_obstacle(scene: PackedScene, position: Vector2, skin = null) -> Node:
 	obstacle.position = position
 	obstacle.add_to_group("obstacles")
 	add_child(obstacle)
-	return obstacle
 
 func _on_Flappy_point():
 	current_score += 1
@@ -87,5 +87,6 @@ func _on_Flappy_game_start():
 	tween.start()
 
 func _on_Button_pressed():
-	get_tree().reload_current_scene()
+	get_tree().reload_current_scene()	
 	pass
+

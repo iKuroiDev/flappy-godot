@@ -111,6 +111,7 @@ margin_top = 392.0
 margin_right = 219.0
 margin_bottom = 440.0
 custom_fonts/font = SubResource( 3 )
+disabled = true
 text = "RESTART"
 
 [node name="Tween" type="Tween" parent="Menus"]
