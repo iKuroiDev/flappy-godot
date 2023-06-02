@@ -9,6 +9,7 @@ var current_score = 0
 
 onready var tween = $StartMessage/Tween
 onready var start_message = $StartMessage/Message
+onready var game_over_tween = $Menus/Tween
 
 var bgs = [
 	"day",
@@ -43,10 +44,13 @@ func _on_PipeTimer_timeout():
 		spawn_obstacle(pipe, Vector2(310, 0), pipe_skin)
 
 func _on_Flappy_game_over():
+	game_over_tween.interpolate_property($Menus/MenuContainer, "modulate:a", 0, 1, 0.2)
+	game_over_tween.start()
+	
 	GameManager.set_score(current_score)	
-	$Menus/HiScore.set_text("Hi Score: " + str(GameManager.hi_score))
+	$Menus/MenuContainer/HiScore.set_text("Hi Score: " + str(GameManager.hi_score))
 		
-	$Menus/ScoreList.set_text(str(GameManager.scores[0]) + "\n" + str(GameManager.scores[1]) + "\n" + str(GameManager.scores[2]))
+	$Menus/MenuContainer/ScoreList.set_text(str(GameManager.scores[0]) + "\n" + str(GameManager.scores[1]) + "\n" + str(GameManager.scores[2]))
 	
 	is_playing = false
 	$PipeTimer.stop()

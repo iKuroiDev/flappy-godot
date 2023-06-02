@@ -60,9 +60,13 @@ texture = ExtResource( 5 )
 [node name="Tween" type="Tween" parent="StartMessage"]
 
 [node name="Menus" type="CanvasLayer" parent="."]
-visible = false
 
-[node name="HiScore" type="Label" parent="Menus"]
+[node name="MenuContainer" type="Control" parent="Menus"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="HiScore" type="Label" parent="Menus/MenuContainer"]
 margin_left = 80.0
 margin_top = 197.0
 margin_right = 212.0
@@ -73,7 +77,7 @@ text = "Hi Score: 0"
 align = 1
 valign = 1
 
-[node name="LastScores" type="Label" parent="Menus"]
+[node name="LastScores" type="Label" parent="Menus/MenuContainer"]
 margin_left = 70.0
 margin_top = 248.0
 margin_right = 223.0
@@ -84,7 +88,7 @@ text = "Last scores:"
 align = 1
 valign = 1
 
-[node name="ScoreList" type="Label" parent="Menus"]
+[node name="ScoreList" type="Label" parent="Menus/MenuContainer"]
 margin_left = 70.0
 margin_top = 288.0
 margin_right = 223.0
@@ -97,11 +101,11 @@ text = "00
 align = 1
 valign = 1
 
-[node name="Gameover" type="Sprite" parent="Menus"]
+[node name="Gameover" type="Sprite" parent="Menus/MenuContainer"]
 position = Vector2( 144, 136 )
 texture = ExtResource( 6 )
 
-[node name="Button" type="Button" parent="Menus"]
+[node name="Button" type="Button" parent="Menus/MenuContainer"]
 margin_left = 75.0
 margin_top = 392.0
 margin_right = 219.0
@@ -109,9 +113,11 @@ margin_bottom = 440.0
 custom_fonts/font = SubResource( 3 )
 text = "RESTART"
 
+[node name="Tween" type="Tween" parent="Menus"]
+
 [connection signal="timeout" from="PipeTimer" to="." method="_on_PipeTimer_timeout"]
 [connection signal="timeout" from="GroundTimer" to="." method="_on_GroundTimer_timeout"]
 [connection signal="game_over" from="Flappy" to="." method="_on_Flappy_game_over"]
 [connection signal="game_start" from="Flappy" to="." method="_on_Flappy_game_start"]
 [connection signal="point" from="Flappy" to="." method="_on_Flappy_point"]
-[connection signal="pressed" from="Menus/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Menus/MenuContainer/Button" to="." method="_on_Button_pressed"]
